@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/todoreact">
       {isLoggedIn && <Header />}
 
       <Routes>
