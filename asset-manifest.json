@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/todoreact/static/css/main.e6c13ad2.css",
+    "main.js": "/todoreact/static/js/main.ebbf551e.js",
+    "index.html": "/todoreact/index.html",
+    "main.e6c13ad2.css.map": "/todoreact/static/css/main.e6c13ad2.css.map",
+    "main.ebbf551e.js.map": "/todoreact/static/js/main.ebbf551e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.ebbf551e.js"
+  ]
+}
