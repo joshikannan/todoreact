@@ -43,7 +43,7 @@ const Todo = () => {
     setLoader(true);
     try {
       const response = await axios.post(
-        `https://nodeusertodo-2.onrender.com/todo/create`,
+        `https://nodeusertodo-2.onrender.com/todos/create`,
         { email, title, description }
       );
       console.log(response.data);
@@ -84,7 +84,7 @@ const Todo = () => {
     setLoader(true);
     try {
       const response = await axios.delete(
-        `https://nodeusertodo-2.onrender.com/todo/delete/?todoid=${id}`
+        `https://nodeusertodo-2.onrender.com/todos/delete/?todoid=${id}`
       );
       if (response.data.status == 200) {
         enqueueSnackbar(response.data.message, {

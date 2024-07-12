@@ -44,7 +44,7 @@ const SignUp = () => {
     console.log("userdata", user);
     try {
       const response = await axios.post(
-        `https://nodeusertodo-2.onrender.com/user/create`,
+        `https://nodeusertodo-2.onrender.com/users/create`,
         user
       );
       console.log("handleSubmit", response.data);
