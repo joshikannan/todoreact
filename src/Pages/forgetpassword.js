@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,39 +15,49 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader";
 import { enqueueSnackbar } from "notistack";
+import VerificationInput from "react-verification-input";
+import Countdown from "react-countdown";
 
-const SignUp = () => {
+const Forgetpassword = () => {
   const navigate = useNavigate();
-  const [name, setname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const user = { name, email, password };
   const [loader, setLoader] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const handleSubmit = async (event) => {
+  const forgetPassword = async (e) => {
     setLoader(true);
-    event.preventDefault();
-
-    console.log("userdata", user);
+    e.preventDefault();
     try {
       const response = await axios.post(
-        `https://nodeusertodo-2.onrender.com/users/create`,
-        user
+        `http://localhost:5000/users/forgetpassword`,
+        { email }
       );
-      console.log("handleSubmit", response.data);
-      if (response.status == 201) {
-        enqueueSnackbar("User Created Succesfully", {
+      console.log("forgetpassword", response);
+      if (response.data.status == 200) {
+        enqueueSnackbar(response.data.message, {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
-          autoHideDuration: 1000,
+          autoHideDuration: 4000,
         });
-        setTimeout(() => {
-          navigate("/signin");
-          setLoader(false);
-        }, 800);
+        navigate("/resetcode", { state: { email } });
+
+        setLoader(false);
       }
-    } catch (error) {
-      console.log("handleSubmit", error.message);
+      if (response.data.status == 404) {
+        enqueueSnackbar(response.data.message, {
+          variant: "warning",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+          autoHideDuration: 4000,
+        });
+        setLoader(false);
+      }
+    } catch (err) {
+      setLoader(false);
+      enqueueSnackbar(err.response.data.message || err.message, {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+        autoHideDuration: 4000,
+      });
+      return { status: 500, Message: err.message };
     }
   };
 
@@ -81,26 +91,14 @@ const SignUp = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Register
+              Forget Password
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
-              //   noValidate
+              onSubmit={forgetPassword}
+              noValidate
               sx={{ mt: 1 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="User Name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value={name}
-                onChange={(e) => setname(e.target.value)}
-              />
               <TextField
                 margin="normal"
                 required
@@ -109,30 +107,25 @@ const SignUp = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                autoFocus
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign Up
+                Continue
               </Button>
               <Grid container justifyContent="center">
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
                 <Grid item>
                   <Link href="/signin" variant="body2">
                     {"Already having account ? Sign In"}
@@ -147,4 +140,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Forgetpassword;

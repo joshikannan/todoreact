@@ -22,11 +22,14 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
+// import MainCard from "../components/MainCard";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import axios from "axios";
 import Loader from "../components/loader";
 import { enqueueSnackbar } from "notistack";
+import MainCard from "../components/MainCard";
+import theme from "../themes/theme";
 
 const Todo = () => {
   const username = localStorage.getItem("username");
@@ -108,96 +111,118 @@ const Todo = () => {
       sx={{ height: "100%", pt: 5, mt: "30px", px: "20px" }}
     >
       {loader && <Loader />}
-      <Grid item xs={12} sx={{ display: "flex" }}>
-        <Typography variant="h4">Todo List</Typography>
-      </Grid>
-      <Grid item xs={12} sx={{}}>
-        <Grid container spacing={1} sx={{}}>
-          <Grid item xs={2}>
-            <TextField
-              size="sm"
-              autoFocus
-              label="Title"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <TextField
-              multiline
-              label="Description"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={1}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "end",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddTodo}
-              // sx={{ mt: 2, ml: 2 }}
+
+      <Grid item xs={12} sx={{ alignItems: "center" }}></Grid>
+      <MainCard
+        title={
+          <Grid container spacing={1} sx={{}}>
+            <Grid item xs={12} sm={2}>
+              <TextField
+                autoFocus
+                label="Title"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <TextField
+                multiline
+                label="Description"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                sx={{ minWidth: "100%" }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={1}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
             >
-              Add Todo
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddTodo}
+                sx={{ mt: 2 }} // Adding margin top to align with TextFields
+                fullWidth
+              >
+                Add
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} sx={{ border: "1px solid #eee" }}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {todolist.map((todo, index) => (
+        }
+      >
+        {" "}
+        <Grid item xs={12} sx={{ border: "1px solid #eee" }}>
+          <TableContainer sx={{ maxHeight: "100vh" }}>
+            <Table stickyHeader>
+              <TableHead>
                 <TableRow>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{todo.title}</TableCell>
-                  <TableCell>{todo.description}</TableCell>
-                  <TableCell>
-                    <>
-                      <IconButton
-                        onClick={() => {
-                          setedittodo(todo.title);
-                        }}
-                      >
-                        <BorderColorOutlinedIcon sx={{}} />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => {
-                          console.log("todo", todo);
-                          deletetodo(todo._id);
-                        }}
-                      >
-                        <DeleteForeverOutlinedIcon sx={{ color: "red" }} />
-                      </IconButton>
-                    </>
+                  <TableCell
+                    sx={{ backgroundColor: theme.palette.primary.main }}
+                  >
+                    S.No
+                  </TableCell>
+                  <TableCell
+                    sx={{ backgroundColor: theme.palette.primary.main }}
+                  >
+                    Title
+                  </TableCell>
+                  <TableCell
+                    sx={{ backgroundColor: theme.palette.primary.main }}
+                  >
+                    Description
+                  </TableCell>
+                  <TableCell
+                    sx={{ backgroundColor: theme.palette.primary.main }}
+                  >
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
+              </TableHead>
+              <TableBody>
+                {todolist.map((todo, index) => (
+                  <TableRow>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{todo.title}</TableCell>
+                    <TableCell>{todo.description}</TableCell>
+                    <TableCell>
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setedittodo(todo.title);
+                          }}
+                        >
+                          <BorderColorOutlinedIcon sx={{}} />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            console.log("todo", todo);
+                            deletetodo(todo._id);
+                          }}
+                        >
+                          <DeleteForeverOutlinedIcon sx={{}} />
+                        </IconButton>
+                      </>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </MainCard>
+
       {/* =========================================|| edit dialog || ========================================= */}
       <Dialog>
         <DialogTitle>

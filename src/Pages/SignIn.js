@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Loader from "../components/loader";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
@@ -24,18 +23,6 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-
-// const theme = createTheme();
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ef6c00", // Customize your primary color
-    },
-    secondary: {
-      main: "#ff9800", // Customize your secondary color
-    },
-  },
-});
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -124,7 +111,7 @@ const SignIn = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       {loader && <Loader />}
       <Stack
         sx={{
@@ -199,6 +186,19 @@ const SignIn = () => {
                   ),
                 }}
               />
+              <Grid
+                container
+                fullWidth
+                justifyContent="center"
+                sx={{ width: "100%" }}
+              >
+                <Grid item fullWidth sx={{ textAlign: "right", width: "100%" }}>
+                  <Link href="/forgetpassword" variant="body2">
+                    {"Forget Password ?"}
+                  </Link>
+                </Grid>
+              </Grid>
+
               <Button
                 type="submit"
                 fullWidth
@@ -218,7 +218,7 @@ const SignIn = () => {
           </Box>
         </Container>
       </Stack>
-    </ThemeProvider>
+    </>
   );
 };
 

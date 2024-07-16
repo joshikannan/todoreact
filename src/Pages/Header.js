@@ -1,10 +1,12 @@
 import React from "react";
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, Chip } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/loginSlice";
+import { useTheme } from "@mui/material/styles";
 
 const Header = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -24,16 +26,24 @@ const Header = () => {
         spacing={3}
         sx={{
           minHeight: "70px",
-          bgcolor: "lightblue",
+          bgcolor: theme.palette.primary.main,
           px: 5,
         }}
       >
-        <Button variant="outlined">{`${user.name || "User Name"}`}</Button>
+        <Chip
+          label={`${user.name || "User Name"}`}
+          color="primary"
+          variant="outlined"
+          sx={{ background: "white" }}
+        />
+
         <Stack direction={"row"} spacing={3}>
           {/* Use onClick to call the navigate function directly */}
           {location.pathname !== "/" && (
             <Button
-              variant="outlined"
+              variant="contained"
+              color="secondary"
+              sx={{ color: theme.palette.primary.main }}
               onClick={() => {
                 navigate("/");
               }}
@@ -42,13 +52,20 @@ const Header = () => {
             </Button>
           )}
           {location.pathname !== "/todo" && (
-            <Button variant="outlined" onClick={() => navigate("/todo")}>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ color: theme.palette.primary.main }}
+              onClick={() => navigate("/todo")}
+            >
               Todo
             </Button>
           )}
           {location.pathname !== "/login" && (
             <Button
-              variant="outlined"
+              variant="contained"
+              color="secondary"
+              sx={{ color: theme.palette.primary.main }}
               onClick={() => {
                 localStorage.removeItem("username");
                 localStorage.removeItem("email");
